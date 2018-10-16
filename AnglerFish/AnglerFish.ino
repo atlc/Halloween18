@@ -1,27 +1,32 @@
 #include <Adafruit_NeoPixel.h>
 
-/* Treating the lighting as one long Neopixel array of 103 lights, this is how the placement and indices are laid out
+/* 
+ * 16G wire colors:
+ *    White:  Data
+ *    Brown:  Ground
+ *    Yellow: 5v  
+ * 
+ * Treating the lighting as one long Neopixel array of 89 lights, this is how the placement and indices are laid out
+ * 
  * Lighting Object      |   Indices   |  Quantity LEDs 
- * -----------------------------------------------------
- * SPINE atop the fish      [ 0 - 20 ]        21
- * Left FIN (Fiber Optics)    [ 21 ]          1   
- * Left FRONT (lg ring)     [ 22 - 37 ]       16
- * Left MID (sm ring)       [ 38 - 49 ]       12
- * Left REAR (sm ring)      [ 50 - 61 ]       12
- * Right REAR (sm ring)     [ 62 - 73 ]       12
- * Right MID (sm ring)      [ 74 - 85 ]       12
- * Right FRONT (lg ring)    [ 86 - 101]       12
- * Right FIN (Fiber Optics)   [ 102 ]         1
+ * ---------------------------------------------------
+ * Left FRONT (lg ring)     [  0 - 15 ]       16
+ * Left REAR (sm ring)      [ 16 - 27 ]       12
+ * Right REAR (sm ring)     [ 28 - 39 ]       12
+ * Right FRONT (lg ring)    [ 40 - 55 ]       16
+ * SPINE atop the fish      [ 56 - 76 ]       21
+ * Bulb                     [ 77 - 88 ]       12
+ * ---------------------------------------------------
 */
 
-// #define N_LEDS 103
+// #define N_LEDS 42
 
 
 #define PIN    6
-#define N_LEDS 21
+#define N_LEDS 12
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(N_LEDS, PIN, NEO_GRB + NEO_KHZ800);
-#define MY_COLOR strip.Color(0,60,128)
+#define MY_COLOR strip.Color(0,0,40)
 
 
 void setup() {
@@ -30,18 +35,15 @@ void setup() {
 
 void loop() {
  spine();
- fins();
- fronts();
- mids();
- rears();
+// fins();1
 }
 
 static void spine() {
-  for(uint16_t i=0; i<21+5; i++) {
+  for(uint16_t i=0; i<N_LEDS+5; i++) {
       strip.setPixelColor(i, MY_COLOR); // Draw new pixel at "front"
       strip.setPixelColor(i-5, 0); // Erase pixel a few steps back
       strip.show();
-      delay(85);
+      delay(65);
   }
 }
 
